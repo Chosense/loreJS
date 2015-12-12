@@ -3,17 +3,6 @@
 module lorejs.odata
 {
 
-	export enum ComparisonOperator
-	{
-		equals,
-		greaterThan,
-		greaterThanOrEquals,
-		lessThan,
-		lessThanOrEquals,
-		notEquals,
-		contains
-	}
-
 	class QueryOptions implements IQueryOptions
 	{
 		constructor(options?: IQueryOptions)

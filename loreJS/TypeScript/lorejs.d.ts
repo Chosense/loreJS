@@ -160,7 +160,17 @@ declare module lorejs.odata
 		inlineTotalCount?: boolean;
 
 		buildUrl?(baseUrl?: string): string;
-	}
+    }
+
+    export enum ComparisonOperator {
+        equals,
+        greaterThan,
+        greaterThanOrEquals,
+        lessThan,
+        lessThanOrEquals,
+        notEquals,
+        contains
+    }
 
 	/** Defines the interface for the data structure that is returned from an API controller when it returns an instance of the 'System.Web.Http.OData.PageResult<T>' class. */
 	interface IQueryResult

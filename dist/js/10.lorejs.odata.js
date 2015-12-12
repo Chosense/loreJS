@@ -2,16 +2,6 @@ var lorejs;
 (function (lorejs) {
     var odata;
     (function (odata) {
-        (function (ComparisonOperator) {
-            ComparisonOperator[ComparisonOperator["equals"] = 0] = "equals";
-            ComparisonOperator[ComparisonOperator["greaterThan"] = 1] = "greaterThan";
-            ComparisonOperator[ComparisonOperator["greaterThanOrEquals"] = 2] = "greaterThanOrEquals";
-            ComparisonOperator[ComparisonOperator["lessThan"] = 3] = "lessThan";
-            ComparisonOperator[ComparisonOperator["lessThanOrEquals"] = 4] = "lessThanOrEquals";
-            ComparisonOperator[ComparisonOperator["notEquals"] = 5] = "notEquals";
-            ComparisonOperator[ComparisonOperator["contains"] = 6] = "contains";
-        })(odata.ComparisonOperator || (odata.ComparisonOperator = {}));
-        var ComparisonOperator = odata.ComparisonOperator;
         var QueryOptions = (function () {
             function QueryOptions(options) {
                 this.defaultTop = 20;
@@ -70,7 +60,7 @@ var lorejs;
                 return this.dateFilter(arg, "datetime", operator, val);
             };
             FilterBuilder.prototype.stringFilter = function (arg, operator, val) {
-                if (operator == ComparisonOperator.contains) {
+                if (operator == odata.ComparisonOperator.contains) {
                     return "substringof('{1}', {0})".format(arg, val);
                 }
                 else {
@@ -105,22 +95,22 @@ var lorejs;
         function comparisonOperatorToString(operator) {
             var s;
             switch (operator) {
-                case ComparisonOperator.equals:
+                case odata.ComparisonOperator.equals:
                     s = "eq";
                     break;
-                case ComparisonOperator.greaterThan:
+                case odata.ComparisonOperator.greaterThan:
                     s = "gt";
                     break;
-                case ComparisonOperator.greaterThanOrEquals:
+                case odata.ComparisonOperator.greaterThanOrEquals:
                     s = "ge";
                     break;
-                case ComparisonOperator.lessThan:
+                case odata.ComparisonOperator.lessThan:
                     s = "lt";
                     break;
-                case ComparisonOperator.lessThanOrEquals:
+                case odata.ComparisonOperator.lessThanOrEquals:
                     s = "le";
                     break;
-                case ComparisonOperator.notEquals:
+                case odata.ComparisonOperator.notEquals:
                     s = "ne";
                     break;
                 default:

@@ -3,6 +3,15 @@
 module lorejs.odata
 {
 
+    lorejs.odata.filterBuilder = function (): IFilterBuilder {
+        return new FilterBuilder();
+    }
+
+    lorejs.odata.queryOptions = function (options?: IQueryOptions): IQueryOptions {
+        return new QueryOptions(options);
+    }
+
+
 	class QueryOptions implements IQueryOptions
 	{
 		constructor(options?: IQueryOptions)
@@ -125,19 +134,6 @@ module lorejs.odata
 
 	}
 
-	/** Returns a new instance of the 'IFilterBuilder' interface. */
-	export function filterBuilder(): IFilterBuilder
-	{
-		return new FilterBuilder();
-	}
-
-	/** Returns a new instance of the 'IQueryOptions' interface. Use the 'options' argument to specify arguments for the returned instance. */
-	export function queryOptions(options?: IQueryOptions): IQueryOptions
-	{
-		return new QueryOptions(options);
-	}
-
-
 
 	function comparisonOperatorToString(operator: ComparisonOperator): string
 	{
@@ -170,4 +166,5 @@ module lorejs.odata
 
 		return s;
 	}
+
 }

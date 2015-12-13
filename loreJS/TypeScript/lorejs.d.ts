@@ -143,7 +143,31 @@ declare module lorejs
 		anchor?: string;
 	}
 
-	//function timeSpan(days?: number, hours?: number, minutes?: number, seconds?: number, milliseconds?: number): ITimeSpan;
+
+	/**
+	Gets the given proeprty from the given source object. This method recognizes any dots ('.') in the name and traverses
+	the given object's child properties to find the value. For instance, if the property name is 'employee.firstName', then
+	this method looks for a property called 'employee' on the given source. If such a property exists, then that child
+	object is search to find a property called 'firstName'.
+	*/
+    function getProperty(source: any, propertyName: string): any;
+
+	/**
+	Sets the property with the given name on the given target object. If the name contains dots ('.'), then the name is 
+	considered to refer to a child object of the target instead of a property directly on the target with just a dot in 
+	its name.
+	*/
+    function setProperty(target: any, propertyName: string, value: any): void;
+
+	/** Parses the given input string into a IUri object. */
+    function parseUri(input?: string): lorejs.IUri;
+
+    /** Creates a time span object from the input string. The input should be formatted as the string returned by the 'lorejs.ITimeSpan.toString()' method. */
+    function timeSpan(input?: string): lorejs.ITimeSpan;
+
+    /** Creates a time span object from the given parameters. */
+    function timeSpan(days?: number, hours?: number, minutes?: number, seconds?: number, milliseconds?: number): ITimeSpan;
+
 }
 
 declare module lorejs.odata
@@ -162,6 +186,7 @@ declare module lorejs.odata
 		buildUrl?(baseUrl?: string): string;
     }
 
+    /** An enumeration used when specifying filter options with an IFilterBuilder implementation. */
     export enum ComparisonOperator {
         equals,
         greaterThan,
@@ -180,6 +205,7 @@ declare module lorejs.odata
 		NextPageLink?: string;
 	}
 
+    /** Defines the interface for a OData filter builder. */
 	interface IFilterBuilder
 	{
 		dateTimeOffsetFilter(arg: string, operator: ComparisonOperator, val: string): string;
@@ -193,5 +219,13 @@ declare module lorejs.odata
 		numberFilter(arg: string, operator: ComparisonOperator, val: number): string;
 
 		stringFilter(arg: string, operator: ComparisonOperator, val: string): string;
-	}
+    }
+
+
+	/** Returns a new instance of the 'IFilterBuilder' interface. */
+    function filterBuilder(): IFilterBuilder;
+
+	/** Returns a new instance of the 'IQueryOptions' interface. Use the 'options' argument to specify arguments for the returned instance. */
+    function queryOptions(options?: IQueryOptions): IQueryOptions;
+
 }

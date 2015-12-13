@@ -3,6 +3,12 @@ var lorejs;
 (function (lorejs) {
     var odata;
     (function (odata) {
+        lorejs.odata.filterBuilder = function () {
+            return new FilterBuilder();
+        };
+        lorejs.odata.queryOptions = function (options) {
+            return new QueryOptions(options);
+        };
         var QueryOptions = (function () {
             function QueryOptions(options) {
                 this.defaultTop = 20;
@@ -83,16 +89,6 @@ var lorejs;
             };
             return FilterBuilder;
         })();
-        /** Returns a new instance of the 'IFilterBuilder' interface. */
-        function filterBuilder() {
-            return new FilterBuilder();
-        }
-        odata.filterBuilder = filterBuilder;
-        /** Returns a new instance of the 'IQueryOptions' interface. Use the 'options' argument to specify arguments for the returned instance. */
-        function queryOptions(options) {
-            return new QueryOptions(options);
-        }
-        odata.queryOptions = queryOptions;
         function comparisonOperatorToString(operator) {
             var s;
             switch (operator) {

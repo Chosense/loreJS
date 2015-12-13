@@ -1,13 +1,19 @@
 /// <reference path="lorejs.d.ts" />
 var lorejs;
 (function (lorejs) {
-    /**
-    Gets the given proeprty from the given source object. This method recognizes any dots ('.') in the name and traverses
-    the given object's child properties to find the value. For instance, if the property name is 'employee.firstName', then
-    this method looks for a property called 'employee' on the given source. If such a property exists, then that child
-    object is search to find a property called 'firstName'.
-    */
-    function getProperty(source, propertyName) {
+    lorejs.parseUri["options"] = {
+        strictMode: false,
+        key: ["source", "protocol", "authority", "userInfo", "user", "password", "host", "port", "relative", "path", "directory", "file", "query", "anchor"],
+        q: {
+            name: "queryKey",
+            parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+        },
+        parser: {
+            strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+            loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+        }
+    };
+    lorejs.getProperty = function (source, propertyName) {
         if (!source || !propertyName)
             return;
         var arr = propertyName.split(".");
@@ -25,14 +31,8 @@ var lorejs;
             }
         };
         return getter(source, arr, 0);
-    }
-    lorejs.getProperty = getProperty;
-    /**
-    Sets the property with the given name on the given target object. If the name contains dots ('.'), then the name is
-    considered to refer to a child object of the target instead of a property directly on the target with just a dot in
-    its name.
-    */
-    function setProperty(target, propertyName, value) {
+    };
+    lorejs.setProperty = function (target, propertyName, value) {
         if (!target || !propertyName)
             return;
         var arr = propertyName.split(".");
@@ -52,11 +52,9 @@ var lorejs;
             }
         };
         setter(target, arr, 0);
-    }
-    lorejs.setProperty = setProperty;
-    /** Parses the given input string into a IUri object. */
-    function parseUri(input) {
-        var o = parseUri["options"], m = o.parser[o.strictMode ? "strict" : "loose"].exec(input), uri = {}, i = 14;
+    };
+    lorejs.parseUri = function (input) {
+        var o = lorejs.parseUri["options"], m = o.parser[o.strictMode ? "strict" : "loose"].exec(input), uri = {}, i = 14;
         while (i--)
             uri[o.key[i]] = m[i] || "";
         uri[o.q.name] = {};
@@ -65,21 +63,8 @@ var lorejs;
                 uri[o.q.name][$1] = $2;
         });
         return uri;
-    }
-    lorejs.parseUri = parseUri;
-    parseUri["options"] = {
-        strictMode: false,
-        key: ["source", "protocol", "authority", "userInfo", "user", "password", "host", "port", "relative", "path", "directory", "file", "query", "anchor"],
-        q: {
-            name: "queryKey",
-            parser: /(?:^|&)([^&=]*)=?([^&]*)/g
-        },
-        parser: {
-            strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
-            loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
-        }
     };
-    function timeSpan(daysOrInput, hours, minutes, seconds, milliseconds) {
+    lorejs.timeSpan = function (daysOrInput, hours, minutes, seconds, milliseconds) {
         var ts = new TimeSpan();
         if (typeof daysOrInput === "string") {
             if (daysOrInput) {
@@ -99,8 +84,54 @@ var lorejs;
                 ts.milliseconds = milliseconds;
         }
         return ts;
-    }
-    lorejs.timeSpan = timeSpan;
+    };
+    var TimeSpan = (function () {
+        function TimeSpan() {
+            this.days = 0;
+            this.hours = 0;
+            this.minutes = 0;
+            this.seconds = 0;
+            this.milliseconds = 0;
+        }
+        TimeSpan.prototype.totalDays = function () {
+            return this.totalHours() / 24.0;
+        };
+        TimeSpan.prototype.totalHours = function () {
+            return this.totalMinutes() / 60.0;
+        };
+        TimeSpan.prototype.totalMinutes = function () {
+            return this.totalSeconds() / 60.0;
+        };
+        TimeSpan.prototype.totalSeconds = function () {
+            return this.totalMilliseconds() / 1000.0;
+        };
+        TimeSpan.prototype.totalMilliseconds = function () {
+            return this.milliseconds
+                + (this.seconds * 1000)
+                + (this.minutes * 60 * 1000)
+                + (this.hours * 60 * 60 * 1000)
+                + (this.days * 24 * 60 * 60 * 1000);
+        };
+        TimeSpan.prototype.toString = function () {
+            var mainArr = [];
+            var s;
+            if (this.days)
+                mainArr.push("" + this.days);
+            if (this.hours || this.minutes || this.seconds || this.milliseconds) {
+                var arr = [];
+                arr.push(("00" + this.hours).right(2));
+                arr.push(("00" + this.minutes).right(2));
+                if (this.seconds)
+                    arr.push(("00" + this.seconds).right(2));
+                mainArr.push(arr.join(":"));
+            }
+            if (this.milliseconds) {
+                mainArr.push(("000" + this.milliseconds).right(3));
+            }
+            return mainArr.join(".");
+        };
+        return TimeSpan;
+    })();
     function parseTimeSpanString(input) {
         var ts = new TimeSpan();
         var arr;
@@ -157,52 +188,5 @@ var lorejs;
         }
         return ts;
     }
-    var TimeSpan = (function () {
-        function TimeSpan() {
-            this.days = 0;
-            this.hours = 0;
-            this.minutes = 0;
-            this.seconds = 0;
-            this.milliseconds = 0;
-        }
-        TimeSpan.prototype.totalDays = function () {
-            return this.totalHours() / 24.0;
-        };
-        TimeSpan.prototype.totalHours = function () {
-            return this.totalMinutes() / 60.0;
-        };
-        TimeSpan.prototype.totalMinutes = function () {
-            return this.totalSeconds() / 60.0;
-        };
-        TimeSpan.prototype.totalSeconds = function () {
-            return this.totalMilliseconds() / 1000.0;
-        };
-        TimeSpan.prototype.totalMilliseconds = function () {
-            return this.milliseconds
-                + (this.seconds * 1000)
-                + (this.minutes * 60 * 1000)
-                + (this.hours * 60 * 60 * 1000)
-                + (this.days * 24 * 60 * 60 * 1000);
-        };
-        TimeSpan.prototype.toString = function () {
-            var mainArr = [];
-            var s;
-            if (this.days)
-                mainArr.push("" + this.days);
-            if (this.hours || this.minutes || this.seconds || this.milliseconds) {
-                var arr = [];
-                arr.push(("00" + this.hours).right(2));
-                arr.push(("00" + this.minutes).right(2));
-                if (this.seconds)
-                    arr.push(("00" + this.seconds).right(2));
-                mainArr.push(arr.join(":"));
-            }
-            if (this.milliseconds) {
-                mainArr.push(("000" + this.milliseconds).right(3));
-            }
-            return mainArr.join(".");
-        };
-        return TimeSpan;
-    })();
 })(lorejs || (lorejs = {}));
 //# sourceMappingURL=lorejs.js.map

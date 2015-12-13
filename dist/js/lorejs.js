@@ -1,3 +1,4 @@
+/// <reference path="lorejs.d.ts" />
 var lorejs;
 (function (lorejs) {
     /**
@@ -204,4 +205,4 @@ var lorejs;
         return TimeSpan;
     })();
 })(lorejs || (lorejs = {}));
-//# sourceMappingURL=00.lorejs.js.map
+//# sourceMappingURL=lorejs.js.map

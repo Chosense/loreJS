@@ -13,11 +13,14 @@ gulp.task('default', function () {
     
 });
 
+gulp.task("clean:wwwroot", function (cb) {
+    rimraf("./wwwroot/js/", cb);
+});
 gulp.task("clean:js", function (cb) {
     rimraf("./../dist/**/*.js", cb);
     rimraf("./../dist/**/*.ts", cb);
 });
-gulp.task("clean", ["clean:js"]);
+gulp.task("clean", ["clean:js", "clean:wwwroot"]);
 
 gulp.task("copy:js", function () {
     gulp.src("./TypeScript/*.js")

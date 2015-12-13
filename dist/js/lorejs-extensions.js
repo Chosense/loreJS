@@ -1,3 +1,4 @@
+/// <reference path="lorejs.d.ts" />
 String.prototype.toDate = function () {
     var d = new Date(this);
     if (!isNaN(d.valueOf()))
@@ -190,4 +191,4 @@ Date.prototype.toUTCTime = function () {
     ts.milliseconds = dt.getUTCMilliseconds();
     return ts;
 };
-//# sourceMappingURL=00.extensions.js.map
+//# sourceMappingURL=lorejs-extensions.js.map

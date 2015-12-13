@@ -1,3 +1,4 @@
+/// <reference path="lorejs.d.ts" />
 var lorejs;
 (function (lorejs) {
     var odata;
@@ -120,4 +121,4 @@ var lorejs;
         }
     })(odata = lorejs.odata || (lorejs.odata = {}));
 })(lorejs || (lorejs = {}));
-//# sourceMappingURL=10.lorejs.odata.js.map
+//# sourceMappingURL=lorejs-odata.js.map

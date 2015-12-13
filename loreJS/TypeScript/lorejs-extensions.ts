@@ -1,4 +1,4 @@
-﻿
+﻿/// <reference path="lorejs.d.ts" />
 
 String.prototype.toDate = function (): Date
 {

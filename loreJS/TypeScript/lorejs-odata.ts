@@ -1,4 +1,4 @@
-
+/// <reference path="lorejs.d.ts" />
 
 module lorejs.odata
 {

@@ -28,6 +28,9 @@ gulp.task("copy:js", function () {
 
     gulp.src("./TypeScript/*.*")
         .pipe(gulp.dest("./wwwroot/js/loreJS/"));
+
+    gulp.src("./TypeScript/app/*.*")
+        .pipe(gulp.dest("./wwwroot/js/"));
 });
 
 gulp.task("copy:typeDefs", function () {

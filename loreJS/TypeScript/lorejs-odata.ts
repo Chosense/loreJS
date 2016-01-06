@@ -2,7 +2,23 @@
 
 module lorejs.odata
 {
-
+    lorejs.odata.ComparisonOperator = {
+        equals: 0,
+        "0": "equals",
+        greaterThan: 1,
+        "1": "greaterThan",
+        greaterThanOrEquals: 2,
+        "2": "greaterThanOrEquals",
+        lessThan: 3,
+        "3": "lessThan",
+        lessThanOrEquals: 4,
+        "4": "lessThanOrEquals",
+        notEquals: 5,
+        "5": "notEquals",
+        contains: 6,
+        "6": "contains"
+    };
+    
     lorejs.odata.filterBuilder = function (): IFilterBuilder {
         return new FilterBuilder();
     }

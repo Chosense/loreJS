@@ -187,14 +187,14 @@ declare module lorejs.odata
     }
 
     /** An enumeration used when specifying filter options with an IFilterBuilder implementation. */
-    export enum ComparisonOperator {
-        equals,
-        greaterThan,
-        greaterThanOrEquals,
-        lessThan,
-        lessThanOrEquals,
-        notEquals,
-        contains
+    enum ComparisonOperator {
+        equals = 0,
+        greaterThan = 1,
+        greaterThanOrEquals = 2,
+        lessThan = 3,
+        lessThanOrEquals = 4,
+        notEquals = 5,
+        contains = 6
     }
 
 	/** Defines the interface for the data structure that is returned from an API controller when it returns an instance of the 'System.Web.Http.OData.PageResult<T>' class. */

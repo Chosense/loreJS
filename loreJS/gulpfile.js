@@ -24,7 +24,9 @@ gulp.task("clean", ["clean:js", "clean:wwwroot"]);
 
 gulp.task("copy:js", function () {
     gulp.src("./TypeScript/*.js")
-        .pipe(gulp.dest("./../dist/js/"))
+        .pipe(gulp.dest("./../dist/js/"));
+
+    gulp.src("./TypeScript/*.*")
         .pipe(gulp.dest("./wwwroot/js/loreJS/"));
 });
 

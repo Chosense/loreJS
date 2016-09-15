@@ -131,7 +131,7 @@ var lorejs;
             return mainArr.join(".");
         };
         return TimeSpan;
-    })();
+    }());
     function parseTimeSpanString(input) {
         var ts = new TimeSpan();
         var arr;

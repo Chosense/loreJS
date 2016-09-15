@@ -186,6 +186,14 @@ declare module lorejs.odata
 		buildUrl?(baseUrl?: string): string;
     }
 
+    /** Defines the interface for an OData query object. */
+    interface IQuery {
+        url?: string;
+        options?: IQueryOptions;
+
+        buildUrl?(): string;
+    }
+
     /** An enumeration used when specifying filter options with an IFilterBuilder implementation. */
     enum ComparisonOperator {
         equals = 0,
@@ -227,5 +235,8 @@ declare module lorejs.odata
 
 	/** Returns a new instance of the 'IQueryOptions' interface. Use the 'options' argument to specify arguments for the returned instance. */
     function queryOptions(options?: IQueryOptions): IQueryOptions;
+
+    /** Returns a new instance of the 'IQuery' interface. */
+    function query(url?: string, options?: IQueryOptions): IQuery;
 
 }

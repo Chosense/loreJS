@@ -25,6 +25,17 @@ var lorejs;
         lorejs.odata.queryOptions = function (options) {
             return new QueryOptions(options);
         };
+        lorejs.odata.query = function (url, options) {
+            if (!options)
+                options = odata.queryOptions();
+            return {
+                url: url,
+                options: options,
+                buildUrl: function () {
+                    return options.buildUrl(this.url);
+                }
+            };
+        };
         var QueryOptions = (function () {
             function QueryOptions(options) {
                 this.defaultTop = 20;
@@ -72,7 +83,7 @@ var lorejs;
                 return s;
             };
             return QueryOptions;
-        })();
+        }());
         var FilterBuilder = (function () {
             function FilterBuilder() {
             }
@@ -104,7 +115,7 @@ var lorejs;
                 return "{0} {1} {3}'{2}'".format(arg, comparisonOperatorToString(operator), dt.toJSON(), type);
             };
             return FilterBuilder;
-        })();
+        }());
         function comparisonOperatorToString(operator) {
             var s;
             switch (operator) {

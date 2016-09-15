@@ -27,6 +27,18 @@ module lorejs.odata
         return new QueryOptions(options);
     }
 
+    lorejs.odata.query = function (url?: string, options?: IQueryOptions): IQuery {
+        if (!options) options = queryOptions();
+
+        return {
+            url: url,
+            options: options,
+            buildUrl: function (): string {
+                return options.buildUrl(this.url);
+            }
+        }
+    }
+
 
 	class QueryOptions implements IQueryOptions
 	{

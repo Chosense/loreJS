@@ -26,13 +26,14 @@ var lorejs;
             return new QueryOptions(options);
         };
         lorejs.odata.query = function (url, options) {
-            return {
+            var q = {
                 url: url,
                 options: odata.queryOptions(options),
                 buildUrl: function () {
-                    return options.buildUrl(this.url);
+                    return q.options.buildUrl(this.url);
                 }
             };
+            return q;
         };
         var QueryOptions = (function () {
             function QueryOptions(options) {

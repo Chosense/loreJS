@@ -28,13 +28,14 @@ module lorejs.odata
     }
 
     lorejs.odata.query = function (url?: string, options?: IQueryOptions): IQuery {
-        return {
+        var q: IQuery = {
             url: url,
             options: queryOptions(options),
             buildUrl: function (): string {
-                return options.buildUrl(this.url);
+                return q.options.buildUrl(this.url);
             }
         }
+        return q;
     }
 
 

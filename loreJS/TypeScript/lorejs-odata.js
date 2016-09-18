@@ -26,11 +26,9 @@ var lorejs;
             return new QueryOptions(options);
         };
         lorejs.odata.query = function (url, options) {
-            if (!options)
-                options = odata.queryOptions();
             return {
                 url: url,
-                options: options,
+                options: odata.queryOptions(options),
                 buildUrl: function () {
                     return options.buildUrl(this.url);
                 }
